@@ -1,0 +1,100 @@
+{
+  "id": "msdeploy-package-sync",
+  "name": "MSDeployPackageSync",
+  "friendlyName": "MSDeploy Package Sync",
+  "description": "Publish a MSDeploy package.",
+  "helpMarkDown": "",
+  "category": "Deploy",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "author": "Robb Schiefer Jr. (@chief7)",
+  "version": {
+    "Major": 0,
+    "Minor": 1,
+    "Patch": 0
+  },
+  "demands": [
+    "azureps"
+  ],
+  "minimumAgentVersion": "1.90.0",
+  "inputs": [
+    {
+      "name": "Package",
+      "type": "filePath",
+      "label": "Web Deploy Package",
+      "defaultValue": "",
+      "helpMarkDown": "Path to the MSDeploy package under the default artifact directory.",
+      "required": true
+    },
+    {
+      "name": "DestinationProvider",
+      "type": "pickList",
+      "label": "Destination Provider",
+      "defaultValue": "auto",
+      "required": true,
+	  "properties": {
+        "EditableOptions": "True"
+      }
+    },
+    {
+      "name": "DestinationComputer",
+      "type": "string",
+      "label": "Destination Computer",
+      "defaultValue": "",
+      "required": true,
+	  "properties": {
+        "EditableOptions": "True"
+      }
+    },
+    {
+      "name": "Password",
+      "type": "password",
+      "label": "Password",
+      "defaultValue": "",
+      "required": true,
+	  "properties": {
+        "EditableOptions": "True"
+      }
+    },
+    {
+        "name": "doNotDelete",
+        "type": "boolean",
+        "label": "Set DoNotDelete flag",
+        "defaultValue": "false",
+        "helpMarkDown": "By enabling this, additonal files in web deployment package are preserved while publishing website.",
+        "required": false
+    },
+    {
+      "name": "AdditionalArguments",
+      "type": "string",
+      "label": "Additional Arguments",
+      "defaultValue": "",
+      "required": false
+    }
+  ],
+  "dataSourceBindings": [
+    {
+      "target": "WebSiteName",
+      "endpointId": "$(ConnectedServiceName)",
+      "dataSourceName": "AzureWebSiteNames",
+	  "parameters": {
+		"WebSiteLocation": "$(WebSiteLocation)"
+	  }
+    },
+    {
+      "target": "WebSiteLocation",
+      "endpointId": "$(ConnectedServiceName)",
+      "dataSourceName": "AzureLocations"
+    }
+  ],
+  "instanceNameFormat": "MSDeploy Package Sync: $(WebSiteName)",
+  "execution": {
+    "AzurePowerShell": {
+      "target": "$(currentDirectory)\\MSDeployPackageSync.ps1",
+      "argumentFormat": "",
+      "workingDirectory": "$(currentDirectory)"
+    }
+  }
+}

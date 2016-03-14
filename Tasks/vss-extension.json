@@ -1,0 +1,51 @@
+{
+    "manifestVersion": 1,
+    "id": "MSDeployAllTheThings",
+    "name": "MSDeployAllTheThings",
+    "version": "0.0.1",
+    "publisher": "Robb Schiefer Jr. (@chief7)",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],    
+    "description": "Build/deployment tasks for MSDeploy.",
+    "categories": [
+        "Build and release"
+    ],
+    "icons": {
+        "default": "extension-icon.png"        
+    },
+    "files": [
+        {
+            "path": "MSDeployPackageSync"
+        }
+        // ,
+        // {
+        //     "path": "Task2"
+        // }
+    ],
+    "contributions": [
+        {
+            "id": "msdeploy-package-sync",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "MSDeployPackageSync"
+            }
+        }
+        // ,
+        // {
+        //     "id": "custom-build-task-2",
+        //     "type": "ms.vss-distributed-task.task",
+        //     "targets": [
+        //         "ms.vss-distributed-task.tasks"
+        //     ],
+        //     "properties": {
+        //         "name": "Task2"
+        //     }
+        // }
+    ]
+}
