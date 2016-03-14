@@ -12,9 +12,12 @@ param
     $DestinationComputer,
     
     [String] [Parameter(Mandatory = $true)]
+    $AuthType,
+    
+    [String] [Parameter(Mandatory = $false)]
     $Username,
     
-    [String] [Parameter(Mandatory = $true)]
+    [String] [Parameter(Mandatory = $false)]
     $Password,
 
     [String] [Parameter(Mandatory = $false)]
@@ -25,8 +28,8 @@ param
 )
 
 # Import the Task.Common and Task.Internal dll that has all the cmdlets we need for Build
-import-module 'C:\temp\vsoagent\Agent\Worker\Modules\Microsoft.TeamFoundation.DistributedTask.Task.Internal\Microsoft.TeamFoundation.DistributedTask.Task.Internal.dll'
-import-module 'C:\temp\vsoagent\Agent\Worker\Modules\Microsoft.TeamFoundation.DistributedTask.Task.Common\Microsoft.TeamFoundation.DistributedTask.Task.Common.dll'
+# import-module "C:\temp\vsoagent\Agent\Worker\Modules\Microsoft.TeamFoundation.DistributedTask.Task.Internal\Microsoft.TeamFoundation.DistributedTask.Task.Internal.dll"
+# import-module "C:\temp\vsoagent\Agent\Worker\Modules\Microsoft.TeamFoundation.DistributedTask.Task.Common\Microsoft.TeamFoundation.DistributedTask.Task.Common.dll"
 # import-module "Microsoft.TeamFoundation.DistributedTask.Task.Internal"
 # import-module "Microsoft.TeamFoundation.DistributedTask.Task.Common"
 
@@ -45,13 +48,6 @@ Write-Host "AdditionalArguments= $AdditionalArguments"
 
 [bool]$DoNotDelete = [System.Convert]::ToBoolean($DoNotDelete)
 Write-Host "DonotDelete (converted) = $DoNotDelete"
-
-Write-Host "packageFile= Find-Files -SearchPattern $Package"
-$packageFile = Find-Files -SearchPattern $Package
-Write-Host "packageFile= $packageFile"
-
-#Ensure that at most a single package (.zip) file is found
-$packageFile = Get-SingleFile $packageFile $Package
 
 
 $MSDeployKey = 'HKLM:\SOFTWARE\Microsoft\IIS Extensions\MSDeploy\3' 
@@ -77,16 +73,22 @@ Write-Host "Deploying $($packageFile.FileName) package to $DestinationComputer"
 $arguments = 
  "-verb:sync",
  "-source:package='$package'",
- "-dest:$DestinationProvider,computerName='$DestinationComputer',userName='$UserName',password='$Password',authType='Basic',includeAcls='False'",
+ "-dest:$DestinationProvider,computerName='$DestinationComputer',userName='$UserName',password='$Password',authType='$AuthType',includeAcls='False'",
 #"-setParam:name='IIS", "Web", "Application", ("Name',value='" + $webApp + "'"),
- "-allowUntrusted",
- "$AdditionalArguments"
+ "-allowUntrusted"
 
-$fullCommand = "$msdeploy $arguments"
-Write-Host $fullCommand
+Write-Host "$msdeploy $arguments $AdditionalArguments"
 
-. $fullCommand
+invoke-expression "& '$msdeploy' $arguments $AdditionalArguments"
 
 
 
 Write-Verbose "Leaving script MSDeployPackageSync.ps1"
+
+
+
+# PS D:\Github\vso-agent-tasks\Tasks\MSDeployPackageSync> .\MSDeployPackageSync.ps1 -DestinationProvider 'auto' -Package 'C:\temp\rootSitePackage\rootsite.zip'
+#  -DestinationComputer 'https://testingvirtualapps.scm.azurewebsites.net:443/msdeploy.axd?site=TestingVirtualApps' -AuthType 'basic' -DoNotDelete 'FALSE' -Use
+# rname '$TestingVirtualApps' -Password 'Rvs7kwDcuPxAfq2EKLoqRQgWhxBkcNlGrzLzfomQsvFF74Rdi3tohRMhRPrh' -AdditionalArguments "-setParamFile:C:\temp\rootSitePack
+# age\RootSite.SetParameters.xml"
+# Package= C:\temp\rootSitePackage\rootsite.zip
