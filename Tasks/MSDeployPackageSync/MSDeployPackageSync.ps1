@@ -27,12 +27,31 @@ param
     $AdditionalArguments
 )
 
-# Import the Task.Common and Task.Internal dll that has all the cmdlets we need for Build
-# import-module "C:\temp\vsoagent\Agent\Worker\Modules\Microsoft.TeamFoundation.DistributedTask.Task.Internal\Microsoft.TeamFoundation.DistributedTask.Task.Internal.dll"
-# import-module "C:\temp\vsoagent\Agent\Worker\Modules\Microsoft.TeamFoundation.DistributedTask.Task.Common\Microsoft.TeamFoundation.DistributedTask.Task.Common.dll"
-# import-module "Microsoft.TeamFoundation.DistributedTask.Task.Internal"
-# import-module "Microsoft.TeamFoundation.DistributedTask.Task.Common"
+import-module "Microsoft.TeamFoundation.DistributedTask.Task.Internal"
+import-module "Microsoft.TeamFoundation.DistributedTask.Task.Common"
 
+
+function Get-SingleFile($files, $pattern)
+{
+    if ($files -is [system.array])
+    {
+        throw (Get-LocalizedString -Key "Found more than one file to deploy with search pattern {0}. There can be only one." -ArgumentList $pattern)
+    }
+    else
+    {
+        if (!$files)
+        {
+            throw (Get-LocalizedString -Key "No files were found to deploy with search pattern {0}" -ArgumentList $pattern)
+        }
+        return $files
+    }
+}
+Write-Host "packageFile= Find-Files -SearchPattern $Package"
+$packageFile = Find-Files -SearchPattern $Package
+Write-Host "packageFile= $packageFile"
+
+#Ensure that at most a single package (.zip) file is found
+$packageFile = Get-SingleFile $packageFile $Package
 
 # adding System.Web explicitly, since we use http utility
 Add-Type -AssemblyName System.Web
@@ -70,17 +89,24 @@ $msdeploy = Join-Path $InstallPath "msdeploy.exe"
 
 Write-Host "Deploying $($packageFile.FileName) package to $DestinationComputer"
 
-$arguments = 
+[string[]] $arguments = 
  "-verb:sync",
- "-source:package='$package'",
+ "-source:package='$packageFile'",
  "-dest:$DestinationProvider,computerName='$DestinationComputer',userName='$UserName',password='$Password',authType='$AuthType',includeAcls='False'",
 #"-setParam:name='IIS", "Web", "Application", ("Name',value='" + $webApp + "'"),
  "-allowUntrusted"
 
-Write-Host "$msdeploy $arguments $AdditionalArguments"
+$fullCommand = """$msdeploy"" $arguments $AdditionalArguments"
+Write-Host $fullCommand
 
-invoke-expression "& '$msdeploy' $arguments $AdditionalArguments"
+# invoke-expression $fullCommand
 
+# $block = $ExecutionContext.InvokeCommand.NewScriptBlock($fullCommand)
+# & $block
+
+$result = cmd.exe /c "$fullCommand"
+
+Write-Host $result
 
 
 Write-Verbose "Leaving script MSDeployPackageSync.ps1"

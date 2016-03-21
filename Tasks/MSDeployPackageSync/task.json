@@ -1,5 +1,5 @@
 {
-  "id": "msdeploy-package-sync",
+  "id": "BFB8E654-51D4-4ED0-8E04-2B3F0F4FCB6D",
   "name": "MSDeployPackageSync",
   "friendlyName": "MSDeploy Package Sync",
   "description": "Publish a MSDeploy package.",
@@ -16,7 +16,7 @@
     "Patch": 0
   },
   "demands": [
-    "azureps"
+    
   ],
   "minimumAgentVersion": "1.90.0",
   "inputs": [
@@ -34,6 +34,7 @@
       "label": "Destination Provider",
       "defaultValue": "auto",
       "required": true,
+        "helpMarkDown": "The destination MSDeploy provider.",
 	  "properties": {
         "EditableOptions": "True"
       }
@@ -44,22 +45,43 @@
       "label": "Destination Computer",
       "defaultValue": "",
       "required": true,
+      "helpMarkDown": "The destination computer to deploy the MSDeploy package to.  For an Azure website the format should be https://[SiteName].scm.azurewebsites.net:443/msdeploy.axd?site=[SiteName].",
 	  "properties": {
         "EditableOptions": "True"
       }
     },
     {
-      "name": "Password",
-      "type": "password",
-      "label": "Password",
-      "defaultValue": "",
+      "name": "AuthType",
+      "type": "string",
+      "label": "AuthType",
+      "defaultValue": "ntlm",
       "required": true,
 	  "properties": {
         "EditableOptions": "True"
       }
     },
     {
-        "name": "doNotDelete",
+      "name": "Username",
+      "type": "string",
+      "label": "Username",
+      "defaultValue": "",
+      "required": false,
+	  "properties": {
+        "EditableOptions": "True"
+      }
+    },
+    {
+      "name": "Password",
+      "type": "string",
+      "label": "Password",
+      "defaultValue": "",
+      "required": false,
+	  "properties": {
+        "EditableOptions": "True"
+      }
+    },
+    {
+        "name": "DoNotDelete",
         "type": "boolean",
         "label": "Set DoNotDelete flag",
         "defaultValue": "false",
@@ -74,24 +96,9 @@
       "required": false
     }
   ],
-  "dataSourceBindings": [
-    {
-      "target": "WebSiteName",
-      "endpointId": "$(ConnectedServiceName)",
-      "dataSourceName": "AzureWebSiteNames",
-	  "parameters": {
-		"WebSiteLocation": "$(WebSiteLocation)"
-	  }
-    },
-    {
-      "target": "WebSiteLocation",
-      "endpointId": "$(ConnectedServiceName)",
-      "dataSourceName": "AzureLocations"
-    }
-  ],
   "instanceNameFormat": "MSDeploy Package Sync: $(WebSiteName)",
   "execution": {
-    "AzurePowerShell": {
+    "PowerShell": {
       "target": "$(currentDirectory)\\MSDeployPackageSync.ps1",
       "argumentFormat": "",
       "workingDirectory": "$(currentDirectory)"
