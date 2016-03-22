@@ -30,7 +30,7 @@
     },
     {
       "name": "DestinationProvider",
-      "type": "pickList",
+      "type": "string",
       "label": "Destination Provider",
       "defaultValue": "auto",
       "required": true,
@@ -79,14 +79,6 @@
 	  "properties": {
         "EditableOptions": "True"
       }
-    },
-    {
-        "name": "DoNotDelete",
-        "type": "boolean",
-        "label": "Set DoNotDelete flag",
-        "defaultValue": "false",
-        "helpMarkDown": "By enabling this, additonal files in web deployment package are preserved while publishing website.",
-        "required": false
     },
     {
       "name": "AdditionalArguments",

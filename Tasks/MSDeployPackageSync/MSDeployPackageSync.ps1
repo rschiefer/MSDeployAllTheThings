@@ -21,9 +21,6 @@ param
     $Password,
 
     [String] [Parameter(Mandatory = $false)]
-    $DoNotDelete,
-
-    [String] [Parameter(Mandatory = $false)]
     $AdditionalArguments
 )
 
@@ -62,11 +59,7 @@ Write-Host "Package= $Package"
 Write-Host "DestinationProvider= $DestinationProvider"
 Write-Host "DestinationComputer= $DestinationComputer"
 Write-Host "Username= $Username"
-Write-Host "DoNotDelete= $DoNotDelete"
 Write-Host "AdditionalArguments= $AdditionalArguments"
-
-[bool]$DoNotDelete = [System.Convert]::ToBoolean($DoNotDelete)
-Write-Host "DonotDelete (converted) = $DoNotDelete"
 
 
 $MSDeployKey = 'HKLM:\SOFTWARE\Microsoft\IIS Extensions\MSDeploy\3' 
