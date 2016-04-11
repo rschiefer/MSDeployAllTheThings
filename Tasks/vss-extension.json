@@ -3,9 +3,9 @@
     "id": "MSDeployAllTheThings",
     "name": "MSDeployAllTheThings",
     "version": "0.0.1",
-    "publisher": "Robb Schiefer Jr. (@chief7)",
+    "publisher": "rschiefer",
     "targets": [
-        {
+        {         
             "id": "Microsoft.VisualStudio.Services"
         }
     ],    
@@ -14,17 +14,35 @@
         "Build and release"
     ],
     "icons": {
-        "default": "extension-icon.png"        
+        "default": "images/MSDeployAllTheThingsIcon_150.png"        
     },
     "files": [
         {
             "path": "MSDeployPackageSync"
         }
-        // ,
-        // {
-        //     "path": "Task2"
-        // }
     ],
+    "screenshots": [
+        {
+            "path": "images/screenshot1.png"
+        }
+    ],
+    "tags": [
+        "msdeploy",
+        "webdeploy"
+    ],
+    "content": {
+        "details": {
+            "path": "readme.md"
+        }
+    },
+    "links": {
+        "learn": {
+            "uri": "https://github.com/rschiefer/MSDeployAllTheThings/tree/master/Tasks/MSDeployPackageSync"
+        }
+    },
+    "branding": {
+        "theme": "light"
+    },
     "contributions": [
         {
             "id": "msdeploy-package-sync",
@@ -36,16 +54,6 @@
                 "name": "MSDeployPackageSync"
             }
         }
-        // ,
-        // {
-        //     "id": "custom-build-task-2",
-        //     "type": "ms.vss-distributed-task.task",
-        //     "targets": [
-        //         "ms.vss-distributed-task.tasks"
-        //     ],
-        //     "properties": {
-        //         "name": "Task2"
-        //     }
-        // }
     ]
+
 }
