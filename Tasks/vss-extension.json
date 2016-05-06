@@ -2,8 +2,9 @@
     "manifestVersion": 1,
     "id": "MSDeployAllTheThings",
     "name": "MSDeployAllTheThings",
-    "version": "0.0.1",
+    "version": "0.0.3",
     "publisher": "rschiefer",
+    "public": true,
     "targets": [
         {         
             "id": "Microsoft.VisualStudio.Services"

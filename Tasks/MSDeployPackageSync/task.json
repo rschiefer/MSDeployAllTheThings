@@ -12,7 +12,7 @@
   "author": "Robb Schiefer Jr. (@chief7)",
   "version": {
     "Major": 0,
-    "Minor": 1,
+    "Minor": 2,
     "Patch": 0
   },
   "demands": [
@@ -82,7 +82,7 @@
     },
     {
       "name": "AdditionalArguments",
-      "type": "string",
+      "type": "multiLine",
       "label": "Additional Arguments",
       "defaultValue": "",
       "required": false
