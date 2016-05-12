@@ -4,7 +4,7 @@ This is a set of build and deployment tasks which utilize or support MSDeploy.
 
 ## We LOVE MSDeploy!!!
 
-MSDeploy has proven itself extremely useful for our deployment needs in the past and we believe it has value going forward.  Check out [my blog](dotnetcatch.com) for all the ways you can use it.
+MSDeploy has proven itself extremely useful for our deployment needs in the past and we believe it has value going forward.  Check out [my blog](https://dotnetcatch.com) for all the ways you can use it.
 
 ## Tasks
 
@@ -14,4 +14,4 @@ We include a single task today MSDeployPackageSync:
 
 ## Want more?
 
-If you have any suggestions for more tasks please contact me [@chief7](twitter.com/chief7) on Twitter or on my blog [dotnetcatch.com](dotnetcatch.com).   
+If you have any suggestions for more tasks please contact me [@chief7](https://twitter.com/chief7) on Twitter or on my blog [dotnetcatch.com](https://dotnetcatch.com).   
