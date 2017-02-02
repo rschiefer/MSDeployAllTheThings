@@ -8,10 +8,10 @@ param
     [String] [Parameter(Mandatory = $true)]
     $DestinationProvider,
     
-    [String] [Parameter(Mandatory = $true)]
+    [String] [Parameter(Mandatory = $false)]
     $DestinationComputer,
     
-    [String] [Parameter(Mandatory = $true)]
+    [String] [Parameter(Mandatory = $false)]
     $AuthType,
     
     [String] [Parameter(Mandatory = $false)]
@@ -82,10 +82,17 @@ $msdeploy = Join-Path $InstallPath "msdeploy.exe"
 
 Write-Host "Deploying $($packageFile.FileName) package to $DestinationComputer"
 
+$remoteArguments = "computerName='$DestinationComputer',userName='$UserName',password='$Password',authType='$AuthType',"
+
+if (-not $DestinationComputer -or -not $AuthType) {
+    Write-Host "No destination or authType defined, performing local operation"
+    $remoteArguments = ""
+}
+
 [string[]] $arguments = 
  "-verb:sync",
  "-source:package='$packageFile'",
- "-dest:$DestinationProvider,computerName='$DestinationComputer',userName='$UserName',password='$Password',authType='$AuthType',includeAcls='False'",
+ "-dest:$DestinationProvider,$($remoteArguments)includeAcls='False'",
 #"-setParam:name='IIS", "Web", "Application", ("Name',value='" + $webApp + "'"),
  "-allowUntrusted"
 
