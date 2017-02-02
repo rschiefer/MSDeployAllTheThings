@@ -44,8 +44,8 @@
       "type": "string",
       "label": "Destination Computer",
       "defaultValue": "",
-      "required": true,
-      "helpMarkDown": "The destination computer to deploy the MSDeploy package to.  For an Azure website the format should be https://[SiteName].scm.azurewebsites.net:443/msdeploy.axd?site=[SiteName].",
+      "required": false,
+      "helpMarkDown": "The destination computer to deploy the MSDeploy package to. If blank, will perform operations on agent machine. For an Azure website the format should be https://[SiteName].scm.azurewebsites.net:443/msdeploy.axd?site=[SiteName].",
 	  "properties": {
         "EditableOptions": "True"
       }
@@ -55,7 +55,7 @@
       "type": "string",
       "label": "AuthType",
       "defaultValue": "ntlm",
-      "required": true,
+      "required": false,
 	  "properties": {
         "EditableOptions": "True"
       }
