@@ -12,6 +12,12 @@ We include a single task today MSDeployPackageSync:
 
 > This task is used to deploy a MSDeploy package to a configured destination. This task is fairly generic allowing the users to set advanced MSDeploy options/arguments. 
 
+## Release Info
+
+### 0.0.4
+
+Added support for providing an explicit SourceProvider instead of the default Package provider.  Thanks to Arne Petersen for the pull request!
+
 ## Want more?
 
 If you have any suggestions for more tasks please contact me [@chief7](https://twitter.com/chief7) on Twitter or on my blog [dotnetcatch.com](https://dotnetcatch.com).   

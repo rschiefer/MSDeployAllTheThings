@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "MSDeployAllTheThings",
     "name": "MSDeployAllTheThings",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "publisher": "rschiefer",
     "public": true,
     "targets": [
