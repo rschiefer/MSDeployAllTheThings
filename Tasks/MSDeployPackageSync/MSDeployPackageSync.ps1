@@ -21,6 +21,9 @@ param
     $Password,
 
     [String] [Parameter(Mandatory = $false)]
+    $SourceProvider,
+
+    [String] [Parameter(Mandatory = $false)]
     $AdditionalArguments
 )
 
@@ -59,6 +62,7 @@ Write-Host "Package= $Package"
 Write-Host "DestinationProvider= $DestinationProvider"
 Write-Host "DestinationComputer= $DestinationComputer"
 Write-Host "Username= $Username"
+Write-Host "SourceProvider= $SourceProvider"
 Write-Host "AdditionalArguments= $AdditionalArguments"
 
 
@@ -89,9 +93,14 @@ if (-not $DestinationComputer -or -not $AuthType) {
     $remoteArguments = ""
 }
 
+if (-not $SourceProvider) {
+    Write-Host "No source provider specified, using package provider for '$packageFile'"
+    $SourceProvider = "package='$packageFile'"
+}
+
 [string[]] $arguments = 
  "-verb:sync",
- "-source:package='$packageFile'",
+ "-source:$SourceProvider",
  "-dest:$DestinationProvider,$($remoteArguments)includeAcls='False'",
 #"-setParam:name='IIS", "Web", "Application", ("Name',value='" + $webApp + "'"),
  "-allowUntrusted"

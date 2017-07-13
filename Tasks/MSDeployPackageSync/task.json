@@ -12,7 +12,7 @@
   "author": "Robb Schiefer Jr. (@chief7)",
   "version": {
     "Major": 0,
-    "Minor": 2,
+    "Minor": 3,
     "Patch": 0
   },
   "demands": [
@@ -77,6 +77,16 @@
       "defaultValue": "",
       "required": false,
 	  "properties": {
+        "EditableOptions": "True"
+      }
+    },
+    {
+      "name": "SourceProvider",
+      "type": "string",
+      "label": "SourceProvider",
+      "defaultValue": "The source MSDeploy provider. If blank, the package provider will be used.",
+      "required": false,
+      "properties": {
         "EditableOptions": "True"
       }
     },
