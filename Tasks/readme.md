@@ -22,6 +22,10 @@ Added support for providing an explicit SourceProvider instead of the default Pa
 
 Fixed bug from last change which caused a unintended breaking change.  Specifically, the new SourceProvider field was set to the help text but should have been blank.
 
+### 0.0.6
+
+Update task version too.
+
 ## Want more?
 
 If you have any suggestions for more tasks please contact me [@chief7](https://twitter.com/chief7) on Twitter or on my blog [dotnetcatch.com](https://dotnetcatch.com).   
