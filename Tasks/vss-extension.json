@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "MSDeployAllTheThings",
     "name": "MSDeployAllTheThings",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "publisher": "rschiefer",
     "public": true,
     "targets": [
@@ -15,7 +15,7 @@
         "Build and release"
     ],
     "icons": {
-        "default": "images/MSDeployAllTheThingsIcon_150.png"        
+        "default": "images/MSDeployAllTheThingsIcon_128.png"        
     },
     "files": [
         {
