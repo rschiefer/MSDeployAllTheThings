@@ -83,40 +83,47 @@ $msdeploy = Join-Path $InstallPath "msdeploy.exe"
 
 # $publishUrl ="https://$Name.scm.azurewebsites.net:443/msdeploy.axd?site-name=$Name"
 # $webApp ="$Name\$App"
-
-Write-Host "Deploying $($packageFile.FileName) package to $DestinationComputer"
-
-$remoteArguments = "computerName='$DestinationComputer',userName='$UserName',password='$Password',authType='$AuthType',"
-
-if (-not $DestinationComputer -or -not $AuthType) {
-    Write-Host "No destination or authType defined, performing local operation"
-    $remoteArguments = ""
-}
-
 if (-not $SourceProvider) {
-    Write-Host "No source provider specified, using package provider for '$packageFile'"
-    $SourceProvider = "package='$packageFile'"
+     Write-Host "No source provider specified, using package provider for '$packageFile'"
+     $SourceProvider = "package='$packageFile'"
 }
 
-[string[]] $arguments = 
- "-verb:sync",
- "-source:$SourceProvider",
- "-dest:$DestinationProvider,$($remoteArguments)includeAcls='False'",
-#"-setParam:name='IIS", "Web", "Application", ("Name',value='" + $webApp + "'"),
- "-allowUntrusted"
+$machines = @()
+if($DestinationComputer) {
+    $DestinationComputer.split(',', [System.StringSplitOptions]::RemoveEmptyEntries) |`
+    Foreach { if( ![string]::IsNullOrWhiteSpace($_) -and ![string]::Equals('\n', $_)) {$machines += $_}}
+} else {
+    $machines += $DestinationComputer #this should allow for local deploys to still function
+}
+foreach ($machine in $machines) {
+    Write-Host "Deploying $($packageFile.FileName) package to $machine"
 
-$fullCommand = """$msdeploy"" $arguments $AdditionalArguments"
-Write-Host $fullCommand
+    $remoteArguments = "computerName='$machine',userName='$UserName',password='$Password',authType='$AuthType',"
 
-# invoke-expression $fullCommand
+    if (-not $machine -or -not $AuthType) {
+        Write-Host "No destination or authType defined, performing local operation"
+        $remoteArguments = ""
+    }
 
-# $block = $ExecutionContext.InvokeCommand.NewScriptBlock($fullCommand)
-# & $block
+    [string[]] $arguments = 
+     "-verb:sync",
+     "-source:$SourceProvider",
+     "-dest:$DestinationProvider,$($remoteArguments)includeAcls='False'",
+     #"-setParam:name='IIS", "Web", "Application", ("Name',value='" + $webApp + "'"),
+     "-allowUntrusted"
 
-$result = cmd.exe /c "$fullCommand"
+    $fullCommand = """$msdeploy"" $arguments $AdditionalArguments"
+    Write-Host $fullCommand
 
-Write-Host $result
+    # invoke-expression $fullCommand
 
+    # $block = $ExecutionContext.InvokeCommand.NewScriptBlock($fullCommand)
+    # & $block
+
+    $result = cmd.exe /c "$fullCommand"
+
+    Write-Host $result
+}
 
 Write-Verbose "Leaving script MSDeployPackageSync.ps1"
 
