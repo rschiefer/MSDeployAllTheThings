@@ -117,6 +117,11 @@ $result = cmd.exe /c "$fullCommand"
 
 Write-Host $result
 
+If ($LASTEXITCODE -eq -1)
+{
+    Write-Host "Deployment failed"
+    throw "MSDeploy command failed.  See logs for details."
+}
 
 Write-Verbose "Leaving script MSDeployPackageSync.ps1"
 
