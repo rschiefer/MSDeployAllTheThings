@@ -16,7 +16,7 @@
     "Patch": 0
   },
   "demands": [
-    
+    "powershell"
   ],
   "minimumAgentVersion": "1.90.0",
   "inputs": [
