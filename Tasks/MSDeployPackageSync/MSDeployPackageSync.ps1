@@ -86,7 +86,7 @@ $msdeploy = Join-Path $InstallPath "msdeploy.exe"
 
 Write-Host "Deploying $($packageFile.FileName) package to $DestinationComputer"
 
-$remoteArguments = "computerName='$DestinationComputer',userName='$UserName',password='$Password',authType='$AuthType',"
+$remoteArguments = "computerName='$DestinationComputer',userName='$UserName',password=""$Password"",authType='$AuthType',"
 
 if (-not $DestinationComputer -or -not $AuthType) {
     Write-Host "No destination or authType defined, performing local operation"
